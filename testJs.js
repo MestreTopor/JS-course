@@ -34,3 +34,30 @@
 // div.insertAdjacentHTML('afterbegin', '<div><h2>Hello</h2></div');  // Добавляет html структуру в начало div
 // div.insertAdjacentHTML('beforeend', '<div><h2>Hello</h2></div');   // Добавляет html структуру в конец div
 // div.insertAdjacentHTML('afterend', '<div><h2>Hello</h2></div');    // Добавляет html структуру после div
+
+console.log(document.head);                                                   // Обращение к head
+console.log(document.documentElement);                                        // Обращение к html 
+console.log(document.body.childNodes);                                        // Обращается ко всем узлам body (родитель) (.childElements не существует в js) 
+console.log(document.body.firstChild);                                        // Обращение к первому ребенку (может быть текстовым узлом)
+console.log(document.body.firstElementChild);                                 // Обращение к первому элементу
+console.log(document.body.lastChild);                                         // Обращение к последнему ребенку (может быть текстовым узлом)
+console.log(document.body.lastElementChild);                                  // Обращение к последнему элементу
+
+console.log(document.querySelector('p').parentNode.parentNode);               // Обращение к родителю и его родителю (может быть текстовым узлом)
+console.log(document.querySelector('p').parentElement);                       // Обращение к родитительскому элементу
+
+console.log(document.querySelector('[data-current="3"]'));                    // Обращение к атрибуту
+console.log(document.querySelector('[data-current="3"]').nextSibling);        // Обращение к следующему соседу (может быть текстовым узлом)
+console.log(document.querySelector('[data-current="3"]').nextElementSibling); // Обращение к следующему соседнему элементу
+
+let childElements = [];
+
+for (let key of document.body.childNodes) {                                   // Выборка для елементов вместо не существующегося метода .childElements
+  if (key.nodeName == "#text") {
+      continue;
+  }
+   
+  childElements.push(key);
+}
+
+console.log(childElements);
