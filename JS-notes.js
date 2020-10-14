@@ -21,7 +21,8 @@
 	
 	
 //Методы:	
-	console.dir(objectName); // Позволяет увидеть все свойства объекта
+	console.dir(objectName); 																			 // Позволяет увидеть все свойства объекта
+	console.log(document.querySelector('.btn').matches('.black')); // Проверяет есть ли у элемента .btn класс .black
 	
 	
 //Циклы: 	
@@ -156,7 +157,8 @@
 	div.insertAdjacentHTML('beforebegin', '<div><h2>Hello</h2></div'); // Добавляет html структуру перед div 
 	div.insertAdjacentHTML('afterbegin', '<div><h2>Hello</h2></div');  // Добавляет html структуру в начало div
 	div.insertAdjacentHTML('beforeend', '<div><h2>Hello</h2></div');   // Добавляет html структуру в конец div
-  div.insertAdjacentHTML('afterend', '<div><h2>Hello</h2></div');    // Добавляет html структуру после div
+	div.insertAdjacentHTML('afterend', '<div><h2>Hello</h2></div');    // Добавляет html структуру после div
+	
 	//--------------------
   
   console.log(document.head);                                                   // Обращение к head
@@ -187,3 +189,57 @@
   console.log(childElements);
 
 	//--------------------
+
+	//События
+	document.addEventListener('DOMContentLoaded', (e) => { // Запускает код, когда загрузился DOM
+		console.log('Hello World!');
+		console.log(e.touches);				// Свойство которое выдает список всех пальцев,
+																	// которые взаимодействуют с экраном (в независимость где они находятся).
+																	// (пальцы которые в данный момент лежат на сенсерном дисплее)
+		
+		console.log(e.targetTouches); // Свойство которое выдает список всех пальцев,
+																	// взяимодействуют с конкретным элементом.  														
+
+		console.log(e.changedTouches);// Свойство которое выдает список всех пальцев (и вроде действий),
+																	// которые учавствуют и учавствовали во время события
+	});
+
+	//Мобильные события
+	const testBtn = document.createElement("<button type='button'>Test btn</button>");
+
+	testBtn.addEventListener('touchstart', () => {	// Тап по элементу
+		console.log('touchstart');			
+	});
+
+	testBtn.addEventListener('touchend', () => {		// Срабатывает сразу же после окончание тапа
+		console.log('touchend');
+	});
+
+	testBtn.addEventListener('touchmove', () => {		// Движение пальца по элементу
+		console.log('touchmove');
+	});
+
+	testBtn.addEventListener('touchenter', () => {	// Срабатывает как только палец проскользит на элемент 
+		console.log('touchenter');
+	});
+
+	testBtn.addEventListener('touchleave', () => {  // Срабатывает когда палец сошел с элемента 
+		console.log('touchleave');
+	});
+
+	testBtn.addEventListener('touchcancel', () => { // Срабатывает тогда, когда палец вышел запредел дисплея
+		console.log('touchcancel');
+	});
+	
+	//--------------------
+
+	//JS атрибуты
+	/*
+		<script defer src="script"></script> <!-- defer - загружает js фаил в фоне и говорит DOM 
+																					чтобы она его запустил после полной загрузки страницы.
+																					(срабатывает до события 'DOMContentLoaded')
+																					Скритпы с атрибутом defer будут загружаться последовательно -->
+
+		<script async src="script"></script> <!-- async - загружает в фоне фаил, отдельно от DOM.
+																					выполняется сразу после загрузки -->
+	*/

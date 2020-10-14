@@ -127,3 +127,5 @@ function deleteMovie (e) {
 // ---------------
 
 addMovies();
+
+console.log(document.querySelector('.btn').matches('.black'));
