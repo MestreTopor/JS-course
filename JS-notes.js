@@ -1,3 +1,6 @@
+//Математические операции
+	console.log(2 ** 3); // 2 в 3-ий степени (8). Доступно с версии es7
+
 //Строчные методы:	
 	const text = "13.3";
 	
@@ -18,11 +21,28 @@
                                                                        // можно записать Object.assign({}, objectName) для того чтобы создать поверхносную копию.
 	
 	console.log(cloneObjectName); // Выведет {name: "Alex", "age": 13, "country": "USA"}
-	
+
+//Свойства:
+	console.log(document.documentElement.clientWidth);             // Возврашает ширину элемента (с padding, без полосы прокрутки)
+	console.log(document.documentElement.clientHeight);            // Возврашает высоту элемента (с padding, без полосы прокрутки)
+
+	console.log(document.documentElement.offsetWidth);             // Возврашает ширину элемента c учетом всех отступов и полосы прокрутки
+	console.log(document.documentElement.offsetHeight);            // Возврашает высоту элемента c учетом всех отступов и полосы прокрутки
+
+	console.log(document.documentElement.scrollLeft);              // Возвращает сколько было проскролено по горизонтали в пикселях
+	console.log(document.documentElement.scrollTop);               // Возвращает сколько было проскролено по вертикали в пикселях
+
+	console.log(document.documentElement.getBoundingClientRect()); // Возвращает объект со всеми координатами
+
+	window.scrollBy(10, 400); 																		 // Скролит от текущего положения по оси X на 10px и по оси Y 400px 
+	window.scrollTo(10, 400); 																		 // Скролит от положения текущей страницы, а не положения по оси X на 10px и по оси Y 400px 
 	
 //Методы:	
 	console.dir(objectName); 																			 // Позволяет увидеть все свойства объекта
 	console.log(document.querySelector('.btn').matches('.black')); // Проверяет есть ли у элемента .btn класс .black
+
+	console.log(window.getComputedStyle(document.body));           // Получение всех стилей элемента (стили идут из css не учитиывает инлайновые)
+	console.log(window.getComputedStyle(document.body, ":after")); // Получение всех стилей псевдо элемента
 	
 	
 //Циклы: 	
@@ -204,6 +224,18 @@
 																	// которые учавствуют и учавствовали во время события
 	});
 
+	let i = 0;
+	const showHello = e => {
+		if (i >= 2) {
+			document.body.removeEventListener('click', showHello); // Удаляет событие клика
+		} else {
+			console.log(`Hello ${i}`);
+		}
+		i++;
+	};
+
+	document.body.addEventListener('click', showHello); // Назначает событие клика на элемент body
+
 	//Мобильные события
 	const testBtn = document.createElement("<button type='button'>Test btn</button>");
 
@@ -231,6 +263,11 @@
 		console.log('touchcancel');
 	});
 	
+	//--------------------
+	// Параметры document, window b screen
+
+	console.log(window.clientWidth);
+	console.log(window.clientHeight);
 	//--------------------
 
 	//JS атрибуты
