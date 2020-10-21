@@ -31,6 +31,8 @@
 
 	console.log(document.documentElement.scrollLeft);              // Возвращает сколько было проскролено по горизонтали в пикселях
 	console.log(document.documentElement.scrollTop);               // Возвращает сколько было проскролено по вертикали в пикселях
+	console.log(window.pageXOffset);              								 // Аналог scrollLeft существует для старых версий хрома (работает только с window)
+	console.log(window.pageYOffset);               								 // Аналог scrollTop существует для старых версий хрома (работает только с window)
 
 	console.log(document.documentElement.getBoundingClientRect()); // Возвращает объект со всеми координатами
 
@@ -44,7 +46,23 @@
 	console.log(window.getComputedStyle(document.body));           // Получение всех стилей элемента (стили идут из css не учитиывает инлайновые)
 	console.log(window.getComputedStyle(document.body, ":after")); // Получение всех стилей псевдо элемента
 	
-	
+	let iSec = 1;
+	function timeOutFunc () {
+		if(iSec <= 5) {
+			console.log(`Time out text is worked ${iSec} times`);
+			iSec++;
+		} else {
+			console.log(`Timer stopped after ${iSec} second`);
+			clearInterval (timeInterval);															// Прекращение вункции с интервалом
+		}	
+	}
+	const timeInterval = setInterval(timeOutFunc, 1000);					// Запуск функции с интервалом
+
+	const timeOutStart = setTimeout(() => {												// Старт таймера
+		console.log('Timer has worked');			
+	}, 3000);
+	clearTimeout(timeOutStart);																		// Прекращение таймаута
+
 //Циклы: 	
 	for (let key in objectName) {					   			             // "in" - перебирает объекты, а "of" - массивы	
 		console.log(`Ключь ${key} значение ${objectName[key]}`); // Вернет: "Ключь name значение Alex"																                             

@@ -194,20 +194,57 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', escClose);
   }
   
+  // function showModal() {
+  //   modalBtns.forEach(element => {
+  //     element.addEventListener('click', e => {
+  //       e.preventDefault();
+
+  //       modalWindow.style.display  = "block";
+  //       htmlElement.style.overflow = "hidden";
+
+  //       hideModal();
+  //     });
+  //   });
+  // }
+
   function showModal() {
+    clearTimeout(timerModal);
+    // window.removeEventListener('scroll', scrollModal);
+
+    modalWindow.style.display  = "block";
+    htmlElement.style.overflow = "hidden";
+
+    hideModal();
+  }
+
+  function eventModal() {
     modalBtns.forEach(element => {
       element.addEventListener('click', e => {
         e.preventDefault();
-
-        modalWindow.style.display  = "block";
-        htmlElement.style.overflow = "hidden";
-
-        hideModal();
+        
+        showModal();
       });
     });
   }
 
-  showModal();
+  eventModal();
+
+  const timerModal = setTimeout (() => {
+      showModal();
+  }, 8000);
+  
+  const scrollModal = e => {
+      // const toContainer  = document.querySelector('.footer').getBoundingClientRect().top;
+
+      if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
+        showModal();
+        window.removeEventListener('scroll', scrollModal);
+      } 
+
+      // console.dir(window.pageYOffset + document.documentElement.clientHeight);
+  };
+
+  window.addEventListener('scroll', scrollModal);
 
   // End modal
 
