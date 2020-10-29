@@ -1,14 +1,11 @@
-//Математические операции
-	console.log(2 ** 3); // 2 в 3-ий степени (8). Доступно с версии es7
-
-//Строчные методы:	
+// Строчные методы:	
 	const text = "13.3";
 	
 	console.log(parseInt(text));   // Вернет 13 (превратиться number)	
 	console.log(parseFloat(text)); // Вернет 13.3 (превратиться number)
 	
 	
-//Свойства объектов:	
+// Свойства объектов:	
 	const objectName = {
 		name: "Alex",
 		age:  13
@@ -22,7 +19,10 @@
 	
 	console.log(cloneObjectName); // Выведет {name: "Alex", "age": 13, "country": "USA"}
 
-//Свойства:
+
+// Свойства:
+
+	// Свойства document, window и screen
 	console.log(document.documentElement.clientWidth);             // Возврашает ширину элемента (с padding, без полосы прокрутки)
 	console.log(document.documentElement.clientHeight);            // Возврашает высоту элемента (с padding, без полосы прокрутки)
 
@@ -39,7 +39,8 @@
 	window.scrollBy(10, 400); 																		 // Скролит от текущего положения по оси X на 10px и по оси Y 400px 
 	window.scrollTo(10, 400); 																		 // Скролит от положения текущей страницы, а не положения по оси X на 10px и по оси Y 400px 
 	
-//Методы:	
+
+// Методы:	
 	console.dir(objectName); 																			 // Позволяет увидеть все свойства объекта
 	console.log(document.querySelector('.btn').matches('.black')); // Проверяет есть ли у элемента .btn класс .black
 
@@ -63,35 +64,61 @@
 	}, 3000);
 	clearTimeout(timeOutStart);																		// Прекращение таймаута
 
-//Функции 
-	const miniFunc1 = a => console.log(`Mini function 1 has an argument ${a}`); 		// Короткая запись стрелочной функции, при условии что есть 1 аргумент
-	const miniFunc2 = () => console.log("Mini function 2 doesn't have an argument");// Короткая запись стрелочной функции, при отсутствии аргументов
 
-	miniFunc1('Puppy');
-	miniFunc2();
+// Функция конструктор (тоже самое что и классы но постарому)
+	function User(name, id) {                          				// Создание функции конструктора
+		this.name  = name;
+		this.id    = id;
+		this.human = true;
+		this.hello = () => {
+			console.log(`${this.name} says "Hello!"`);
+		};
+	}
 
-	// Функция конструктор
-		function User(name, id) {                          // Создание функции конструктора
-			this.name  = name;
-			this.id    = id;
-			this.human = true;
-			this.hello = () => {
-				console.log(`${this.name} says "Hello!"`);
-			};
+	User.prototype.exit = function() {
+		console.log(`Пользователь: ${this.name} вышел`); 				// Добавление нового свойства в конструктор
+	};
+
+	const alex = new User('Alex', 1);                  			  // Создание объекта с помощь функции конструктора
+	const kristina = new User('Kristina', 2);
+
+	console.log(alex);
+	console.log(kristina);
+
+	alex.exit();                                       			  // Вывод добавленного свойства
+	alex.open();
+
+
+// Классы
+	class Rectangle {               // Создание класса (концепция)
+		constructor(height, width) {  // Создание конструктора 
+			this.height = height;
+			this.width = width;
+		}                             
+
+		calcArea() {                  // Создание функции/метода (не нужно писать слово function)
+			return this.height * this.width;
+		}
+	}
+
+	class ColoredRectangleWithText extends Rectangle { // Создание класса который наследует все методы и свойства класса Rectangle
+		constructor(height, width, text, bgColor) {      // Обязательно добавлять в конструктор аргументы наследуемого
+			super(height, width);                          // Вызывает конструктор наследуемого родителя (Rectangle), внутри можно написать только те свойства которые нужно использовать. super() всегда должен быть на первом месте внутри конструктора
+			this.text = text;
+			this.bgColor = bgColor;
 		}
 
-		User.prototype.exit = function() {
-			console.log(`Пользователь: ${this.name} вышел`); 				// Добавление нового свойства в конструктор
-		};
+		showMyProps() {
+			console.log(`Текст: ${this.text}, цвет: ${this.bgColor}`);
+		}
+	}
+	const square = new Rectangle(10, 10); // (экземпляр)
+	console.log(square.calcArea());
 
-		const alex = new User('Alex', 1);                  			  // Создание объекта с помощь функции конструктора
-		const kristina = new User('Kristina', 2);
+	const block = new ColoredRectangleWithText(10, 10, 'Hi', 'red');
+	block.showMyProps();
+	console.log(block.calcArea());
 
-		console.log(alex);
-		console.log(kristina);
-
-		alex.exit();                                       			  // Вывод добавленного свойства
-		alex.open();
 
 // Контекст вызова this
 	function showThis1() {
@@ -147,7 +174,7 @@
 		const result = a + b;
 		return `${this*num} || result = ${result}`;
 	}
-																								// bind создает новую функцию и поднее подвязывает контектс
+																								// bind создает новую функцию и под нее подвязывает контектс
 	const bindingFunc1 = count.bind(2, 5, 10, 2); // Первый аргумент становится this и байндиться навсегда
 																								// this = 2, num = 5, a = 10, b = 2
 																								
@@ -158,76 +185,83 @@
 	console.log(bindingFunc2(3));                 // Вернет "3 || result = NaN"
 // ------------		
 
-//Циклы: 	
+
+// Циклы: 	
 	for (let key in objectName) {					   			             // "in" - перебирает объекты, а "of" - массивы	
 		console.log(`Ключь ${key} значение ${objectName[key]}`); // Вернет: "Ключь name значение Alex"																                             
 	}
 	
-	const numbers = [2,3,4,8];
-	
+	const numbers = [2,3,4,8];	
 	numbers.forEach(function(item, key, arr) {                 // Принемает 3 аргумента: 1 - значение, 2 - ключ, содержимое массива (не работает с объектами)
-	
 		console.log(`${item} : ${key} внутри массива ${arr}`);
-		
 	});
 	
 	
-//Операторы:	
+// Операторы:	
 	const nameObject = {
 		name1: "Vanya",
 		name2: "Sanya",
 		name3: "Vovka"
-	};
-	
+	};	
 	console.log(nameObject); // { name1: 'Vanya', name2: 'Sanya', name3: 'Vovka' }
 	
 	delete nameObject.name3; // Удалит name3 у объекта nameOgject
 	
-	console.log(nameObject); // { name1: 'Vanya', name2: 'Sanya' }
-	
+	console.log(nameObject); // { name1: 'Vanya', name2: 'Sanya' }	
 	//------------
 	
-	console.log(2 && 1 && null && 0 && undefined); // && - останавливается на false, а || останавливается на true
-	
+	console.log(2 && 1 && null && 0 && undefined); // && - останавливается на false, а || останавливается на true	
 	//------------
 	
-	let a = 1;
-	
+	let a = 1;	
 	a = a + 1; // 2
-	a += 1; 	 // 3
-	
+	a += 1; 	 // 3	
 	//------------
 	
 	
-//Новые фишкa JS es6 и выше
+// Новые фишки JS es6 и выше
+	// Операторы
+	const video = ['youtube', 'vimeo', 'pornhub'],
+	blogs = ['wordpress', 'livejournal', 'blogger'],
+	internet = [...video, ...blogs, 'instagram']; // ... - spret оператор раскрывает массивы и объекты
+	console.log(internet); // Вернет [ 'youtube', 'vimeo', 'pornhub', 'wordpress', 'livejournal', 'blogger', 'instagram' ]
+	//--------------------
+	const picture = (a, b, ...rest) => { // ... - rest оператор помещает все параметры в массив, даже если параметр не указан, будет создан пустой массив (в функциях rest параметр не поддерживает дефолтные значения)
+		return console.log(a, b, rest);
+	};
+	picture('paint', 'photoshop', 'illustrator', 'bulocka', 'cruasanchik'); // При spret операторе можно добавлять сколько угодно параметров так как они будут добавляться в массив
+	//--------------------
+
+	// Математические операции
+	console.log(2 ** 3); // 2 в 3-ий степени (8). Доступно с версии es7
 	
+	a = 1;
+	let b = 1;
+
+	console.log(!!(a && b)); // !! - превращает в булевый тип данных
+	console.log((a && b));	 
+	//--------------------
+
+	console.log(typeof +"12"); // + превращает строку в числовой тип данных
+	//--------------------
+
+	// Функции
 	const arrowsFunction = () => { 	// Стрелочная функция
 		return "Hello World!";
 	};
-
 	console.log(arrowsFunction());
-	
-	//--------------------
-	
-	const video = ['youtube', 'vimeo', 'pornhub'],
-		blogs = ['wordpress', 'livejournal', 'blogger'],
-		internet = [...video, ...blogs, 'instagram']; // ... раскрывает массивы и объекты
 
-	console.log(internet); // Вернет [ 'youtube', 'vimeo', 'pornhub', 'wordpress', 'livejournal', 'blogger', 'instagram' ]
-	
+	const miniFunc1 = a => console.log(`Mini function 1 has an argument ${a}`); 		 // Короткая запись стрелочной функции, при условии что есть 1 аргумент
+	const miniFunc2 = () => console.log("Mini function 2 doesn't have an argument"); // Короткая запись стрелочной функции, при отсутствии аргументов
+	miniFunc1('Puppy');
+	miniFunc2();
 	//--------------------
-	
-  	a = 1;
-		let b = 1;
+	function plus () {
 
-		console.log(!!(a && b)); // !! - превращает в булевый тип данных
-		console.log((a && b));	 
-	
+	}
 	//--------------------
-	
-	
-	//Прототипирование
-
+		
+	// Прототипирование
 	const soldier = {
 	  health: 400,
 	  armor: 100,
@@ -252,11 +286,9 @@
 	console.log(Object.getPrototypeOf(john)); // Вернет ссылку на прототип soldier
 
 	console.log(john.armor);
-	
 	//--------------------
 	
-	//Действия с элементами на странице
-	
+// Действия с элементами на странице	
 	const box     = document.getElementById('box'),
         circles = document.querySelectorAll('.circles'),
         hearts  = document.querySelectorAll('.hearts'),
@@ -291,7 +323,6 @@
 	div.insertAdjacentHTML('afterbegin', '<div><h2>Hello</h2></div');  // Добавляет html структуру в начало div
 	div.insertAdjacentHTML('beforeend', '<div><h2>Hello</h2></div');   // Добавляет html структуру в конец div
 	div.insertAdjacentHTML('afterend', '<div><h2>Hello</h2></div');    // Добавляет html структуру после div
-	
 	//--------------------
   
   console.log(document.head);                                                   // Обращение к head
@@ -320,10 +351,10 @@
   }
 
   console.log(childElements);
-
 	//--------------------
 
-	//События
+
+//События
 	document.addEventListener('DOMContentLoaded', (e) => { // Запускает код, когда загрузился DOM
 		console.log('Hello World!');
 		console.log(e.touches);				// Свойство которое выдает список всех пальцев,
@@ -346,7 +377,6 @@
 		}
 		i++;
 	};
-
 	document.body.addEventListener('click', showHello); // Назначает событие клика на элемент body
 
 	//Мобильные события
@@ -375,13 +405,8 @@
 	testBtn.addEventListener('touchcancel', () => { // Срабатывает тогда, когда палец вышел запредел дисплея
 		console.log('touchcancel');
 	});
-	
 	//--------------------
-	// Параметры document, window b screen
 
-	console.log(window.clientWidth);
-	console.log(window.clientHeight);
-	//--------------------
 
 	//JS атрибуты
 	/*
