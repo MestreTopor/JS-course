@@ -16,8 +16,12 @@
 	
 	const cloneObjectName = Object.assign(objectName, {country: "USA"}); // Создает ссылку на объект objectName и добавляет свойство country: "USA" 
                                                                        // можно записать Object.assign({}, objectName) для того чтобы создать поверхносную копию.
-	
 	console.log(cloneObjectName); // Выведет {name: "Alex", "age": 13, "country": "USA"}
+
+	const globalCloneObjectName = JSON.parse(JSON.stringify(objectName));// Создает глубокую копию объекта objectName
+	globalCloneObjectName.age = 55;	
+	console.log(globalCloneObjectName);
+	console.log(objectName);
 
 
 // Свойства:
@@ -408,13 +412,54 @@
 	//--------------------
 
 
-	//JS атрибуты
-	/*
-		<script defer src="script"></script> <!-- defer - загружает js фаил в фоне и говорит DOM 
-																					чтобы она его запустил после полной загрузки страницы.
-																					(срабатывает до события 'DOMContentLoaded')
-																					Скритпы с атрибутом defer будут загружаться последовательно -->
+// AJAX методы
+const objForAjax = {
+	name: "Cris",
+	age: 18
+};
+const jsonObj = JSON.stringify(objForAjax);
 
-		<script async src="script"></script> <!-- async - загружает в фоне фаил, отдельно от DOM.
-																					выполняется сразу после загрузки -->
-	*/
+console.log(jsonObj); // Преабразует объект в JSON объект
+console.log(JSON.parse(jsonObj)); // Преабразует JSON объект в объект javascript
+//--------------------
+
+// Асинхронное выполнение AJAX
+  // Первый способ
+  const inputRub = document.querySelector('#rub'),
+        inputUsd = document.querySelector('#usd');
+
+  inputRub.addEventListener('input', () => {
+    const request = new XMLHttpRequest();                                          // Метод для создания запроса к JSON
+    // request.open(method, url, async, login, pass);                              // .open - метод который собирает настройки для запроса на сервер
+    request.open('GET', 'js/current.json');
+    request.setRequestHeader('Content-type', 'application/json', 'charset=utf-8'); // Запрос на http заголовки
+    request.send();                                                                // Если используется POST запрос, то в скобках нужно ввести содержимое запроса
+
+    // request.addEventListener('readystatechange', () => {                        // Событие которое отслеживает статус готового запроса в текущий момент (срабатывет несколько раз)
+    // if (request.readyState === 4 && request.status === 200) {                   
+
+    request.addEventListener('load', () => {                                       // Событие которое срабатывает когда запрос готов
+      if (request.status === 200) {
+        const data = JSON.parse(request.response);
+        inputUsd.value = (+inputRub.value / +data.current.usd).toFixed(2);
+      } else {
+        inputUsd.value = request.statusText;
+      }
+    });
+    // status - Показывает статус запроса (200 - 500)
+    // statusText - Текстовое описание ответа от сервера (ok, not found)
+    // readyState - Содержит текущее состояние запроса (0 - 4)
+    // response - Содержит ответ от сервера
+  });
+
+
+//JS атрибуты
+/*
+	<script defer src="script"></script> <!-- defer - загружает js фаил в фоне и говорит DOM 
+																				чтобы она его запустил после полной загрузки страницы.
+																				(срабатывает до события 'DOMContentLoaded')
+																				Скритпы с атрибутом defer будут загружаться последовательно -->
+
+	<script async src="script"></script> <!-- async - загружает в фоне фаил, отдельно от DOM.
+																				выполняется сразу после загрузки -->
+*/

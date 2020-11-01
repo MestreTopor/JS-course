@@ -298,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
         </div>
       `;
-      console.log(div);
+      // console.log(div);
       this.selector.append(div);
     }
   }
