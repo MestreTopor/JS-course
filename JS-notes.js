@@ -327,6 +327,8 @@
 	div.insertAdjacentHTML('afterbegin', '<div><h2>Hello</h2></div');  // Добавляет html структуру в начало div
 	div.insertAdjacentHTML('beforeend', '<div><h2>Hello</h2></div');   // Добавляет html структуру в конец div
 	div.insertAdjacentHTML('afterend', '<div><h2>Hello</h2></div');    // Добавляет html структуру после div
+
+	div.insertAdjacentElement('afterend', textHello); 								 // Добавляет элемент после div, так же работает с 'beforebegin', 'afterbegin', 'beforeend'
 	//--------------------
   
   console.log(document.head);                                                   // Обращение к head
@@ -424,7 +426,7 @@ console.log(JSON.parse(jsonObj)); // Преабразует JSON объект в
 //--------------------
 
 // Асинхронное выполнение AJAX
-  // Первый способ
+  // GET Запрос. Первый способ (устаревший)
   const inputRub = document.querySelector('#rub'),
         inputUsd = document.querySelector('#usd');
 
@@ -432,7 +434,7 @@ console.log(JSON.parse(jsonObj)); // Преабразует JSON объект в
     const request = new XMLHttpRequest();                                          // Метод для создания запроса к JSON
     // request.open(method, url, async, login, pass);                              // .open - метод который собирает настройки для запроса на сервер
     request.open('GET', 'js/current.json');
-    request.setRequestHeader('Content-type', 'application/json', 'charset=utf-8'); // Запрос на http заголовки
+    request.setRequestHeader('Content-type', 'application/json', 'charset=utf-8'); // Запрос на http заголовки (для GET запроса)
     request.send();                                                                // Если используется POST запрос, то в скобках нужно ввести содержимое запроса
 
     // request.addEventListener('readystatechange', () => {                        // Событие которое отслеживает статус готового запроса в текущий момент (срабатывет несколько раз)
@@ -445,13 +447,136 @@ console.log(JSON.parse(jsonObj)); // Преабразует JSON объект в
       } else {
         inputUsd.value = request.statusText;
       }
-    });
+		});
+		
     // status - Показывает статус запроса (200 - 500)
     // statusText - Текстовое описание ответа от сервера (ok, not found)
     // readyState - Содержит текущее состояние запроса (0 - 4)
     // response - Содержит ответ от сервера
-  });
+	});
+	//--------------------
 
+	// POST Запрос. Первый способ (устаревший)
+	const forms = document.querySelectorAll('form');
+  forms.forEach(formItem => {
+    postData(formItem);
+  });
+  
+  function postData(form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const request = new XMLHttpRequest();
+      request.open('POST', 'server.php');
+      
+      // request.setRequestHeader('Content-type', 'multipart/format-data'); // multipart/format-data формат для обычного POST запроса. ЕСЛИ ИСПОЛЬЗОВАТЬ .setRequestHeader() (format-data) вместе с new XMLHttpRequest() ТО ЗАГОЛОВКИ УКАЗЫВАТЬ НЕ НУЖНО!
+      request.setRequestHeader('Content-type', 'application/json');         // Формат для POST запроса в формате JSON
+      const formData = new FormData(form);                                  // Помогает сформировать все данные которые пришли с формы. form - это конкретная форма
+      
+      const object = {};
+      formData.forEach(function (value, key) {                          // Преобразует в объект все данные что пришли из формы
+        object[key] = value;
+      });
+			console.log(formData.getAll('name'));                             // Получает содержимое всех инпутов с атрибутом name
+			const json = JSON.stringify(object);                              // Преобразует в JSON объект
+      
+      // request.send(formData);                                        // Отправляет данные на сервер формата 'multipart/format-data' (php) (В скобках прописано тело формы)
+      request.send(json);                                               // Отправляет данные на сервер в формате 'application/json' (json)
+
+      request.addEventListener('load', () => {
+        if (request.status === 200) {
+          alert(request.response);
+          form.reset();                                                 // Чистит форму от введеных данных (чистит value)
+        } else {
+					alert(request.statusText);
+        }
+      });
+    });
+	}
+	//--------------------
+
+	// Настройка AJAX POST запросов для php server (для php файла)
+	// $_POST = json_decode(file_get_contents("php://input"), true); // Декодирует для JSON запросов
+	// echo var_dump($_POST);
+
+	// GET Запрос. Второй способ (современный)
+		fetch('https://jsonplaceholder.typicode.com/todos/1')	// GET запрос на фэйковый сервер
+    .then(response => response.json())										// response - это ответ от сервера, response.json() - парсит JSON объетк в JS (работает как JSON.parse()). Здесь возвращается Promise
+		.then(json => console.log(json));											// Вывод
+	//--------------------
+
+	// POST Запрос. Второй способ (современный)
+		fetch('https://jsonplaceholder.typicode.com/posts', { // POST запрос на отправку данных на сервер
+    method: 'POST',																				// Прописывается метод
+    headers: {																						// Заголовки
+      'Content-type': 'application/json'									
+		},	
+		body: JSON.stringify({ name: "Alona", age: 25 })			// Данные которые отправляются на сервер в формате JSON)
+  	})
+    .then(response => response.json())
+		.then(json => console.log(json))
+		.catch(() => console.log('Not found'));								// Сработает только при выключенном интернете так как fetch или при другом сбое
+	//--------------------
+
+
+// Promise (метод для синхронного запуска кода)
+	const req = new Promise((resolve, reject) => {	// Promise - это объект благодаря которому можно писать асинхронный код
+		console.log('Проверка данных...');				 		// Параметры (resolve, reject) resolve - нужно использовать если все прошло успешно (пример: данные с сервера пришли). reject - Если произошла ошибка
+		setTimeout(() => {											
+			if(false) {
+				resolve();														 		// Запуск функцию resolve	(можно передовать параметры в скобках)
+			} else {
+				reject();															 		// Запуск функцию reject (можно передовать параметры в скобках)
+			}
+		}, 2000);
+	});
+
+	req.then(() => {														// В then пишется то, что будет исполнятся в resolve
+		return new Promise((resolve, reject) => { // В then так же можно создавать Promise
+			console.log('Подготовка данных...');
+			setTimeout(() => {
+				const product = {
+					name: 'TV',
+					price: 2000
+				};
+				
+				resolve(product);											// Добавление параметра в resolve
+			}, 2000);
+		});
+	}).then(product => {												// Передача параметра в then	
+		return new Promise((resolve, reject) => {		
+			console.log('Финальная подготовка...');
+			setTimeout(() => {													
+				product.status = 'order';
+				resolve(product);
+			}, 2000);	
+		});
+	}).then(product => {
+		console.log(product);
+	}).catch(text => {													// В catch пишется то, что будет исполнятся в reject
+		setTimeout(() => {
+			text = "Not Found!";
+			console.error(text);
+		}, 2000);
+	}).finally(() => {													// Выполняется после окончания обработки (всегда пишется в конце)
+		console.log('Конец запроса');						  
+	});
+//--------------------
+
+const test = time => {
+	return new Promise(resolve => {
+		setTimeout(() => resolve(), time);				
+	});
+};
+
+Promise.all([test(1000), test(2000)]).then(() => {	// Запускается после того как все промисы загрузились
+	console.log('All');
+});
+
+Promise.race([test(1000), test(2000)]).then(() => { // Запускается после того как хотябы один промисы загрузится
+	console.log('Race');
+});
+//--------------------
 
 //JS атрибуты
 /*

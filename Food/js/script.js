@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const tabsContainer   = document.querySelector('.tabheader__items'),
-        tabMenueItems   = tabsContainer.querySelectorAll('.tabheader__item'),
-        tabContentItems = document.querySelectorAll('.tabcontent');
+  const tabsContainer = document.querySelector('.tabheader__items'),
+    tabMenueItems = tabsContainer.querySelectorAll('.tabheader__item'),
+    tabContentItems = document.querySelectorAll('.tabcontent');
 
   function addAnimation() {
     tabContentItems.forEach(item => {
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
       item.classList.add('fade-out');
       setTimeout(() => {
         item.classList.add('hide');
-      }, 300); 
+      }, 300);
     });
   }
 
@@ -27,11 +27,11 @@ document.addEventListener('DOMContentLoaded', () => {
     tabMenueItems[item].classList.add('tabheader__item_active');
 
     setTimeout(() => {
-        tabContentItems[item].classList.add('fade-in');
-        tabContentItems[item].classList.remove('hide');
-        setTimeout(() => {
-          tabContentItems[item].classList.remove('fade-out');
-        }, 300);
+      tabContentItems[item].classList.add('fade-in');
+      tabContentItems[item].classList.remove('hide');
+      setTimeout(() => {
+        tabContentItems[item].classList.remove('fade-out');
+      }, 300);
     }, 300);
   }
 
@@ -57,23 +57,23 @@ document.addEventListener('DOMContentLoaded', () => {
   const deadline = '2020-12-18';
 
   function getTimeRemaining(endTime) {
-    const t        = Date.parse(endTime) - Date.parse(new Date()),
-          days     = Math.floor(t / (1000 * 60 * 60 * 24)),
-          hours    = Math.floor((t / (1000 * 60 * 60) % 24)),
-          minutes  = Math.floor((t / 1000 / 60) % 60),
+    const t = Date.parse(endTime) - Date.parse(new Date()),
+          days = Math.floor(t / (1000 * 60 * 60 * 24)),
+          hours = Math.floor((t / (1000 * 60 * 60) % 24)),
+          minutes = Math.floor((t / 1000 / 60) % 60),
           seconds = Math.floor((t / 1000) % 60);
 
     return {
-      'total'   : t,
-      'days'    : days,
-      'hours'   : hours,
-      'minutes' : minutes,
+      'total': t,
+      'days': days,
+      'hours': hours,
+      'minutes': minutes,
       'seconds': seconds
-    };     
+    };
   }
 
   function getZero(num) {
-    if(num >= 0 && num < 10) {
+    if (num >= 0 && num < 10) {
       return `0${num}`;
     } else {
       return num;
@@ -81,11 +81,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function setClock(selector, endTime) {
-    const timer        = document.querySelector(selector),
-          days         = timer.querySelector('#days'),
-          hours        = timer.querySelector('#hours'),
-          minutes      = timer.querySelector('#minutes'),
-          seconds      = timer.querySelector('#seconds'),
+    const timer = document.querySelector(selector),
+          days = timer.querySelector('#days'),
+          hours = timer.querySelector('#hours'),
+          minutes = timer.querySelector('#minutes'),
+          seconds = timer.querySelector('#seconds'),
           timeInterval = setInterval(updateClock, 1000);
 
     updateClock();
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateClock() {
       const t = getTimeRemaining(endTime);
 
-      if(t.total <= 0) {
+      if (t.total <= 0) {
         clearInterval(timeInterval);
         days.textContent = getZero(0);
         hours.textContent = getZero(0);
@@ -111,82 +111,29 @@ document.addEventListener('DOMContentLoaded', () => {
   setClock('.timer', deadline);
   // End timer
 
-  // function modal() {
-  //   const modalBtns   = document.querySelectorAll('[data-modal-btn]'),
-  //         modalWindow = document.querySelector('.modal'),
-  //         closeModal  = document.querySelector('[data-modal-close]');
-
-  //   const btnsClose = e => {
-  //     e.preventDefault();
-
-  //     e = e.target;
-  //     if(e && e == closeModal || e == modalWindow) {
-  //       modalWindow.style.display = "";
-  //       modalWindow.removeEventListener('click', btnsClose);
-  //       console.log(e + ' end');
-  //     } else {
-  //       console.log(e);
-  //     }
-  //   };
-
-  //   const escClose = e => {
-  //     e = e.code;
-
-  //     if (e == 'Escape') {
-  //       modalWindow.style.display = "";
-  //       console.log(e + ' end');
-  //       document.removeEventListener('keydown', escClose);
-  //     } else {
-  //       console.log(e);
-  //     }
-  //   };
-
-  //   modalBtns.forEach(element => {
-  //     element.addEventListener('click', e => {
-  //       e.preventDefault();
-
-  //       modalWindow.style.display = "block";
-
-  //       modalWindow.addEventListener('click', btnsClose);
-  //       document.addEventListener('keydown', escClose);
-  //     });
-  //   });
-  // }
-
   // modal();
 
-  const modalBtns   = document.querySelectorAll('[data-modal-btn]'),
+  const modalBtns = document.querySelectorAll('[data-modal-btn]'),
         modalWindow = document.querySelector('.modal'),
-        closeModal  = document.querySelector('[data-modal-close]'),
         htmlElement = document.documentElement;
 
-  function hideModal () {
+  function eventModal() {
     const btnsClose = e => {
-      e.preventDefault();
-  
       e = e.target;
-      if(e && e == closeModal || e == modalWindow) {
-        // console.log(e + ' end');
+      if (e && e.getAttribute('data-modal-close') == "" || e == modalWindow) {
         dropEvents();
-      } else {
-        // console.log(e);
       }
     };
-  
+
     const escClose = e => {
       e = e.code;
-  
       if (e == 'Escape') {
-        // console.log(e + ' end');
         dropEvents();
-      } else {
-        // console.log(e);
       }
-    };  
+    };
 
-    function dropEvents () {
-      modalWindow.style.display = "";
-      htmlElement.style.overflow = "";
+    function dropEvents() {
+      hideModal();
       modalWindow.removeEventListener('click', btnsClose);
       document.removeEventListener('keydown', escClose);
     }
@@ -194,55 +141,41 @@ document.addEventListener('DOMContentLoaded', () => {
     modalWindow.addEventListener('click', btnsClose);
     document.addEventListener('keydown', escClose);
   }
-  
-  // function showModal() {
-  //   modalBtns.forEach(element => {
-  //     element.addEventListener('click', e => {
-  //       e.preventDefault();
-
-  //       modalWindow.style.display  = "block";
-  //       htmlElement.style.overflow = "hidden";
-
-  //       hideModal();
-  //     });
-  //   });
-  // }
 
   function showModal() {
     clearTimeout(timerModal);
     // window.removeEventListener('scroll', scrollModal);
-
-    modalWindow.style.display  = "block";
+    modalWindow.style.display = "block";
     htmlElement.style.overflow = "hidden";
-
-    hideModal();
+    
+    eventModal();
+  }
+  
+  function hideModal() {
+    modalWindow.style.display = "";
+    htmlElement.style.overflow = "";
   }
 
-  function eventModal() {
+  function addEventModal() {
     modalBtns.forEach(element => {
       element.addEventListener('click', e => {
         e.preventDefault();
-        
         showModal();
       });
     });
   }
 
-  eventModal();
+  addEventModal();
 
-  const timerModal = setTimeout (() => {
-      showModal();
+  const timerModal = setTimeout(() => {
+    showModal();
   }, 8000);
-  
+
   const scrollModal = e => {
-      // const toContainer  = document.querySelector('.footer').getBoundingClientRect().top;
-
-      if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
-        showModal();
-        window.removeEventListener('scroll', scrollModal);
-      } 
-
-      // console.dir(window.pageYOffset + document.documentElement.clientHeight);
+    if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
+      showModal();
+      window.removeEventListener('scroll', scrollModal);
+    }
   };
 
   window.addEventListener('scroll', scrollModal);
@@ -259,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
       this.transfer = transfer;
       this.selector = document.querySelector(selector);
       this.addCLass = addCLass;
-      this.changeToUAH(); // посмотреть как это работает
+      this.changeToUAH();
     }
 
     getArr() {
@@ -283,12 +216,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     rendedr() {
       const div = document.createElement('div');
-      if(this.addCLass.length == 0) {
+      if (this.addCLass.length == 0) {
         div.classList.addCLass('menu__item');
       } else {
         this.addCLass.forEach(addClass => div.classList.add(addClass.slice(1)));
       }
-      div.innerHTML =`
+      div.innerHTML = `
         <img src="${this.src}" alt="${this.alt}">
         <h3 class="menu__item-subtitle">${this.title}</h3>
         <div class="menu__item-descr">${this.descr}</div>
@@ -340,4 +273,132 @@ document.addEventListener('DOMContentLoaded', () => {
   menu2.rendedr();
   menu3.rendedr();
   // End class for cards menue
+
+  // Start form 
+  
+  // POST Запрос
+  const forms   = document.querySelectorAll('form'),
+        message = {
+          loading: 'icons/spinner.svg',
+          success: 'Спасибо! Скоро мы с вами свяжемся',
+          failure: 'Что-то пошло не так...'
+        };
+
+  forms.forEach(formItem => {
+    postData(formItem);
+  });
+  
+  function postData(form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const statusMessage = document.createElement('img');
+      statusMessage.src = message.loading;
+      statusMessage.alt = 'Loading';
+      statusMessage.style.cssText = `
+        display: block;
+        margin: 0 auto;
+      `;
+      form.insertAdjacentElement('afterend', statusMessage);
+      
+      const formData = new FormData(form);                                  // Помогает сформировать все данные которые пришли с формы. form - это конкретная форма
+      
+      const object = {};
+      formData.forEach(function (value, key) {                      // Преабразует в объект все данные что пришли из формы
+        object[key] = value;
+        // console.log(`Value - ${value}`);                                    // ???
+        // console.log(`Key - ${key}`);                                        // ???
+      });
+      // console.log(formData.getAll('name'));                             // Получает содержимое всех инпутов с атрибутом name
+      // console.log(formData);
+      // const json = JSON.stringify(object);                              // Преабразует в JSON объект
+      
+      // const request = new XMLHttpRequest();
+      // request.open('POST', 'server.php');
+      
+      // request.setRequestHeader('Content-type', 'multipart/format-data'); // multipart/format-data формат для обычного POST запроса. ЕСЛИ ИСПОЛЬЗОВАТЬ .setRequestHeader() (format-data) вместе с new XMLHttpRequest(), ТО ЗАГОЛОВКИ УКАЗЫВАТЬ НЕ НУЖНО!      
+      // request.setRequestHeader('Content-type', 'application/json');         // Формат для POST запроса в формате JSON
+      
+      // request.send(formData);                                        // Отправляет данные на сервер формата 'multipart/format-data' (php) (В скобках прописано тело формы)
+      // request.send(json);                                               // Отправляет данные на сервер в формате 'application/json' (json)
+      
+      // request.addEventListener('load', () => {
+      //   if (request.status === 200) {
+      //     console.log(request.response);
+      //     showThanksModal(message.success);
+      //     form.reset();                                                 // Чистит форму от введеных данных (чистит value)
+      //     // statusMessage.remove();
+      //   } else {
+      //     showThanksModal(message.failure);
+      //     // statusMessage.remove();
+      //   }
+      //   statusMessage.remove();
+      // });
+      
+      fetch('server.php', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify(object)  
+      })
+      .then(data => {
+        console.log(data);
+        showThanksModal(message.success);
+        form.reset();                                                 
+        statusMessage.remove();
+        
+        // return new Promise((resolve, reject) => {
+        //   if (data.ok) {
+        //     resolve();
+        // } else {
+        //   return reject();
+        // }                  
+        // }).then(() => {
+        //   showThanksModal(message.success);
+        //   form.reset();                                                 
+        //   statusMessage.remove();
+        // }).catch(() => {
+        //   console.log('Not found');
+        //   console.log(data);
+        //   showThanksModal(message.failure);
+        //   statusMessage.remove();
+        // });
+        
+      })
+      .catch((data) => {
+        console.log('Not found');
+        console.log(data);
+        showThanksModal(message.failure);
+        statusMessage.remove();
+      })
+      .finally(() => console.log('Finish!'));
+      
+    });
+  }
+
+  function showThanksModal(message) {
+    const prevModalDialog = document.querySelector('.modal__dialog');
+    
+    prevModalDialog.classList.toggle('hide');
+    
+    const thanksModal = document.createElement('div');
+    thanksModal.classList.add('modal__dialog');
+    thanksModal.insertAdjacentHTML('beforeend', `
+      <div class="modal__content">
+        <div data-modal-close class="modal__close">&times;</div>
+        <div class="modal__title">${message}</div>
+      </div>
+    `);
+    modalWindow.append(thanksModal);
+    showModal();
+    
+    setTimeout(() => {
+      thanksModal.remove();
+      prevModalDialog.classList.toggle('hide');
+      hideModal();
+    }, 5000);
+  }
+  // End form
+
 });
