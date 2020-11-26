@@ -3,7 +3,7 @@
 	
 	console.log(parseInt(text));   // Вернет 13 (превратиться number)	
 	console.log(parseFloat(text)); // Вернет 13.3 (превратиться number)
-	
+// ------------	
 	
 // Свойства объектов:	
 	const objectName = {
@@ -22,10 +22,9 @@
 	globalCloneObjectName.age = 55;	
 	console.log(globalCloneObjectName);
 	console.log(objectName);
-
+// ------------
 
 // Свойства:
-
 	// Свойства document, window и screen
 	console.log(document.documentElement.clientWidth);             // Возврашает ширину элемента (с padding, без полосы прокрутки)
 	console.log(document.documentElement.clientHeight);            // Возврашает высоту элемента (с padding, без полосы прокрутки)
@@ -42,7 +41,7 @@
 
 	window.scrollBy(10, 400); 																		 // Скролит от текущего положения по оси X на 10px и по оси Y 400px 
 	window.scrollTo(10, 400); 																		 // Скролит от положения текущей страницы, а не положения по оси X на 10px и по оси Y 400px 
-	
+// ------------
 
 // Методы:	
 	console.dir(objectName); 																			 // Позволяет увидеть все свойства объекта
@@ -67,6 +66,52 @@
 		console.log('Timer has worked');			
 	}, 3000);
 	clearTimeout(timeOutStart);																		// Прекращение таймаута
+// ------------
+
+// Методы перебора массивов
+	const names = ['Ivan', 'Ann', 'Ksenia', 'Voldemart'];
+	const shortNames = names.filter(name => {											// .filter() - метод который перебирает массив и возвращает те элементы которые поподают под выборку
+		return name.length < 5;																			// Возвращаем те значения с массива, у которых длина меньше 5 символов
+		});
+	console.log(shortNames);
+	// ------------
+
+	let asnwer = ['HeLLow', 'gOOd', 'oK'];
+	asnwer = asnwer.map(item => {																	// .map() - метод который позволяет изменять значения в масиве не создавая копию    	
+		return item.toLowerCase();												
+	});
+	console.log(asnwer);
+	// ------------
+
+	const some = [4, 'string', false];
+	console.log(some.some(item => typeof(item) === 'number'));		// .some() - метод который перебирает значения в массиве и возвращает true если хоть какой-то элемент попадет под условие
+	console.log(some.every(item => typeof(item) === 'number'));		// .every() - метод который перебирает значения в массиве и возвращает true если все элементы попадают под условие
+	// ------------
+
+	const arr = [4, 5, 1, 3, 2, 6];
+	const res = arr.reduce((sum, current) => {										// .reduce((sum, current) => {return sum + current}) - метод у которого есть 2 аргумента. Используется для сложения (и вычитания если это числовыые значения) значений в массиве
+		console.log(`${sum} - ${current}`);													// sum - это первый элемент, который можно перезаписывать, 
+		return sum + current;
+	}, 3);																												// В reduce можно добавить начально значение после скобки arr.reduce(sum => sum, 10) Вернет 10
+	console.log(res);
+	// ------------
+
+	const individuals = {
+		ivan: 'persone',
+		ann: 	'persone',
+		dog: 	'anumal',
+		cat: 	'animal'
+	};
+	
+	const arrIndividuals = Object.entries(individuals)	// Преобразует объект в массив
+	.filter(arr => arr[1] == 'persone')									// Выбираем те свойства у которых значение 'persone'
+	.map(arr => arr[0]);																// Перезаписываем массив и записывает только имена что находятся в объекте individuals
+	console.log(arrIndividuals);												// [ 'ivan', 'ann' ]
+  
+  const changeArray = [['Goole', 'Company'], arrIndividuals];
+	console.log(Object.fromEntries(changeArray));       // Преобразует массив в объект. Не работает в стрых браузерах и консоли!!!
+																											// {ivan: 'ann'}																													
+// ------------
 
 
 // Функция конструктор (тоже самое что и классы но постарому)
@@ -79,8 +124,8 @@
 		};
 	}
 
-	User.prototype.exit = function() {
-		console.log(`Пользователь: ${this.name} вышел`); 				// Добавление нового свойства в конструктор
+	User.prototype.exit = function() {												// Добавление нового свойства в конструктор
+		console.log(`Пользователь: ${this.name} вышел`); 				
 	};
 
 	const alex = new User('Alex', 1);                  			  // Создание объекта с помощь функции конструктора
@@ -142,8 +187,8 @@
 			}
 			shout();
 
-			const boom = () => console.log(this); // Ссылочная функция не имеет своего контектса вызова,
-																						// она будет брать его у своего родителя (в данном случае "obj") и будет ссылаться на него
+			const boom = () => console.log(this); // Стрелочная функция не имеет своего контектса вызова,
+																						// она будет брать его у своего родителя (в данном случае "obj") и будет ссылаться на него (вернет window или ошибку)
 			boom();
 		}
 	};  
@@ -155,7 +200,7 @@
 		this.id    = id;
 		this.human = true;
 		this.hello = function() {
-			console.log(`${this.name} says "Hello!"`); // this в конструкторах и классах это новый экземпляр объекта
+			console.log(`${this.name} says "Hello!"`); // this в конструкторах и классах это новый экземпляр объекта (будет ссылкаться на объект)
 		};
 	}
 	const bill = new User('Bill', 26);
@@ -234,6 +279,46 @@
 		return console.log(a, b, rest);
 	};
 	picture('paint', 'photoshop', 'illustrator', 'bulocka', 'cruasanchik'); // При spret операторе можно добавлять сколько угодно параметров так как они будут добавляться в массив
+	//--------------------
+
+	// Деструкторизация
+	// Arraya
+		function calcValues(a, b) {
+			return [
+				a + b,
+				a - b,
+				a * b,
+				a / b
+			];
+		}																																				// Деструкторизация массива
+		const [,, sub = 'Вычитания нет', mult, ...other] = calcValues(42, 10);  // ,, - пропускает создание переменной с тем элементом который совподает по счету в массиве
+		console.log(sub, mult, other);
+		
+	// Objects
+		const person = {
+			name: 'Max',
+			age: 20,
+			address: {
+				country: 'Russia',
+				city: 'Moscow'
+			}
+		};
+		const {																																	 // Деструкторизация объекта
+			name: firstName = 'Без имени',																				 // Создает переменную firstName и помещает содержимое name во внутрь, с установкой дефолтного параметра - 'Без имени'
+			age,
+			car = 'Машины нет',
+			address: {																														 // Еще одна дестриктуризация	(не создает переменную address, а заходит вовнутрь оригинальной и уже потом создает переменные homeTown и country)
+				city: homeTown,																											  
+				country 
+			}
+		} = person;
+		// const {name, ...info} = person																				 // Создает первую переменную, а все остальное содержимое помещает в переменную info в качестве объекта
+		console.log(firstName, age, car, homeTown, country);
+		
+		function logPerson({name: firstName = '111', age}) {
+			console.log(firstName + ' ' + age);
+		}
+		logPerson(person);
 	//--------------------
 
 	// Математические операции
@@ -515,10 +600,31 @@ console.log(JSON.parse(jsonObj)); // Преабразует JSON объект в
   	})
     .then(response => response.json())
 		.then(json => console.log(json))
-		.catch(() => console.log('Not found'));								// Сработает только при выключенном интернете так как fetch или при другом сбое
+		.catch(() => console.log('Not found'));								// Сработает только при выключенном интернете или при другом сбое
 	//--------------------
 
+	// Асинхронный операторы
+	const posting = async (url, data) => { 									// async говорит о том что внутри функции будет асинхронный 
+    const res = await fetch(url, {												// await говорит что нужно получить какой-то ответ от сервера, прежде чем выполнить остальной код
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify(data)
+		});
+		
+		if (!res.ok) {
+      throw new Error(`Could not fetch ${url}, status: ${res.status}`); // throw - оператор ошибки (возвращает catch). new Error() - объект ошибки которая пояаляется в консоли
+    }
 
+    return await res;
+	};
+	
+	posting('https://jsonplaceholder.typicode.com/posts', {name: "Oleg"})
+  .then(post => {
+    console.log(post.status);
+  });
+	//--------------------
 // Promise (метод для синхронного запуска кода)
 	const req = new Promise((resolve, reject) => {	// Promise - это объект благодаря которому можно писать асинхронный код
 		console.log('Проверка данных...');				 		// Параметры (resolve, reject) resolve - нужно использовать если все прошло успешно (пример: данные с сервера пришли). reject - Если произошла ошибка
@@ -588,3 +694,7 @@ Promise.race([test(1000), test(2000)]).then(() => { // Запускается п
 	<script async src="script"></script> <!-- async - загружает в фоне фаил, отдельно от DOM.
 																				выполняется сразу после загрузки -->
 */
+//--------------------
+
+// Запуск json-server
+// json-server name_of_file.json
