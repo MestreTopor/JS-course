@@ -1,8 +1,7 @@
 {
   "name": "learnjs",
   "version": "1.0.0",
-  "description": "",
-  "main": "",
+  "main": "JS-notes.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,6 +16,11 @@
   },
   "homepage": "https://github.com/MestreTopor/JS-course#readme",
   "devDependencies": {
-    "jshint": "^2.12.0"
-  }
+    "jshint": "^2.12.0",
+    "webpack": "^5.10.3",
+    "webpack-cli": "^4.2.0"
+  },
+  "dependencies": {},
+  "keywords": [],
+  "description": ""
 }

@@ -114,17 +114,19 @@
                     </div>
                 </div>
                 <div class="offer__slider-wrapper">
-                    <div class="offer__slide">
-                        <img src="img/slider/pepper.jpg" alt="pepper">
-                    </div>
-                    <div class="offer__slide">
-                        <img src="img/slider/food-12.jpg" alt="food">
-                    </div>
-                    <div class="offer__slide">
-                        <img src="img/slider/olive-oil.jpg" alt="oil">
-                    </div>
-                    <div class="offer__slide">
-                        <img src="img/slider/paprika.jpg" alt="paprika">
+                    <div class="offer__slider-container">
+                        <div class="offer__slide">
+                            <img src="img/slider/pepper.jpg" alt="pepper">
+                        </div>
+                        <div class="offer__slide">
+                            <img src="img/slider/food-12.jpg" alt="food">
+                        </div>
+                        <div class="offer__slide">
+                            <img src="img/slider/olive-oil.jpg" alt="oil">
+                        </div>
+                        <div class="offer__slide">
+                            <img src="img/slider/paprika.jpg" alt="paprika">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -142,27 +144,27 @@
                     Ваш пол
                 </div>
                 <div class="calculating__choose" id="gender">
-                    <div class="calculating__choose-item calculating__choose-item_active">Женщина</div>
-                    <div class="calculating__choose-item">Мужчина</div>
+                    <div id="female" class="calculating__choose-item calculating__choose-item_active" data-gender="woman">Женщина</div>
+                    <div id="male" class="calculating__choose-item" data-gender="man">Мужчина</div>
                 </div>
 
                 <div class="calculating__subtitle">
                     Ваша конституция
                 </div>
                 <div class="calculating__choose calculating__choose_medium">
-                    <input type="text" id="height" placeholder="Введите рост" class="calculating__choose-item">
-                    <input type="text" id="weight" placeholder="Введите вес"  class="calculating__choose-item">
-                    <input type="text" id="age" placeholder="Введите возраст" class="calculating__choose-item">
+                    <input type="text" id="height" data-proportions="" placeholder="Введите рост" class="calculating__choose-item">
+                    <input type="text" id="weight" data-proportions="" placeholder="Введите вес"  class="calculating__choose-item">
+                    <input type="text" id="age" data-proportions="" placeholder="Введите возраст" class="calculating__choose-item">
                 </div>
 
                 <div class="calculating__subtitle">
                     Выберите вашу физическая активность
                 </div>
                 <div class="calculating__choose calculating__choose_big">
-                    <div id="low" class="calculating__choose-item">Низкая активность </div>
-                    <div id="small"  class="calculating__choose-item calculating__choose-item_active">Невысокая активность</div>
-                    <div id="medium" class="calculating__choose-item">Умеренная активность</div>
-                    <div id="high" class="calculating__choose-item">Высокая активность</div>
+                    <div id="low" data-active="1.2" class="calculating__choose-item">Низкая активность </div>
+                    <div id="small" data-active="1.375"  class="calculating__choose-item calculating__choose-item_active">Невысокая активность</div>
+                    <div id="medium" data-active="1.55" class="calculating__choose-item">Умеренная активность</div>
+                    <div id="high" data-active="1.9" class="calculating__choose-item">Высокая активность</div>
                 </div>
 
                 <div class="calculating__divider"></div>
@@ -301,6 +303,7 @@
             </div>
         </div>
     </div>
-    <script src="js/script.js"></script>
+    <!-- <script src="js/old_script.js"></script> -->
+    <script src="dist/js/bundle.js"></script>
 </body>
 </html>
