@@ -291,4 +291,4 @@ function others() {
   // End slider
 
 }
-module.exports = others;
+export default others;

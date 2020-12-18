@@ -154,4 +154,4 @@ function form() {
   }
   // End form		
 }
-module.exports = form;
+export default form;

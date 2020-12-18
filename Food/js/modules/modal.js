@@ -67,5 +67,5 @@ function modal() {
 
   window.addEventListener('scroll', scrollModal);
 }
-module.exports = modal;
+export default modal;
 // End Modal

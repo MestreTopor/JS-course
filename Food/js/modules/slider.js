@@ -135,4 +135,4 @@ function slider() {
   setSliderWindow();
   // End slider
 }
-module.exports = slider;
+export default slider;

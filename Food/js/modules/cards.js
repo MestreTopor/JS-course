@@ -128,4 +128,4 @@ function cards() {
   // menu3.rendedr();
   // End class for cards menue
 }
-module.exports = cards;
+export default cards;
