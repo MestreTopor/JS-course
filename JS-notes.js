@@ -304,8 +304,12 @@
 
 
 // Циклы: 	
-	for (let key in objectName) {					   			             // "in" - перебирает объекты, а "of" - массивы	
-		console.log(`Ключь ${key} значение ${objectName[key]}`); // Вернет: "Ключь name значение Alex"																                             
+  const objectName2 = {
+    name: "Alex",
+    age:  13
+  };
+	for (let key in objectName2) {					   			             // "in" - перебирает объекты, а "of" - массивы	
+		console.log(`Ключь ${key} значение ${objectName2[key]}`); // Вернет: "Ключь name значение Alex"																                             
 	}
 	
 	const numbers = [2,3,4,8];	
@@ -403,27 +407,58 @@
 	//--------------------
 
 	// Функции
-	const arrowsFunction = () => { 	// Стрелочная функция
-		return "Hello World!";
-	};
-	console.log(arrowsFunction());
+    const arrowsFunction = () => { 	// Стрелочная функция
+      return "Hello World!";
+    };
+    console.log(arrowsFunction());
 
-	const miniFunc1 = () => console.log("Mini function 2 doesn't have an argument"); // Короткая запись стрелочной функции, при отсутствии аргументов
-	const miniFunc2 = a => console.log(`Mini function 1 has an argument ${a}`); 		 // Короткая запись стрелочной функции, при условии что есть 1 аргумент
-	miniFunc1();
-	miniFunc2('Puppy');
-  //--------------------
-  
-	function plus(string) { // Обычная функция
-    console.log(string);
-  }
-  plus('Привет!');
-  //--------------------
-  
-  (function(){                // Анонимная самовызывающаяся функция (Для создания модулей)
-    const persone = "Peter";  
-    console.log(person);
-  }());
+    const miniFunc1 = () => console.log("Mini function 2 doesn't have an argument"); // Короткая запись стрелочной функции, при отсутствии аргументов
+    const miniFunc2 = a => console.log(`Mini function 1 has an argument ${a}`); 		 // Короткая запись стрелочной функции, при условии что есть 1 аргумент
+    miniFunc1();
+    miniFunc2('Puppy');
+    //--------------------
+    
+    function plus(string) { // Обычная функция
+      console.log(string);
+    }
+    plus('Привет!');
+    //--------------------
+    
+    (function(){                // Анонимная самовызывающаяся функция (Для создания модулей)
+      const persone = "Peter";  
+      console.log(person);
+    }());
+    //--------------------
+
+    // Функции-генераторы
+    function* generator() { // Функция генератор, можно писать и так - function *generator()
+      yield 'S';            // В 'yield' делается запись которая будет посменно возвращаться каждый раз когда будет выполняться функция пока все 'yield' не закончаться
+      yield 'c';
+      yield 'r';
+      yield 'i';
+      yield 'p';
+      yield 't';
+    }
+    const str = generator();
+    console.log(str.next());        // Всегда нужно писать метод '.next()' при вызове функции генератора { value: 'S', done: false }
+    console.log(str.next().value);  // c   
+    console.log(str.next().value);  // r  
+    console.log(str.next().value);  // i  
+    console.log(str.next().value);  // p  
+    console.log(str.next().value);  // t  
+    console.log(str.next().value);  // undefined
+    console.log(str.next());        // { value: undefined, done: true }, 'done' возвращает true когда генератор закончился
+    //--------------------
+
+    function* count(n) {
+      for (let i = 0; i < n; i++) {
+        yield i;                    // на этом месте 'yield' прервет цикл и он не продолжится пока функцию 'count(n)' не запустят еще раз или сам цикл не дойдет до предела
+      }
+    }
+    const counter = count(7);
+    for(let k of counter) {
+      console.log(k);               // Запуск цикла максимальное количество раз, будет возвращать свойсво '.value'
+    }
   //--------------------
 
   // Модули
@@ -909,3 +944,70 @@ Promise.race([test(1000), test(2000)]).then(() => { // Запускается п
   }
   // Все что будет написано ниже оператора 'try catch' продолжит работать даже если в 'try' будет ошибка.
 //--------------------
+
+// Анимация в js
+  const btn              = document.querySelector('.btn'),
+        boxContainer     = document.querySelector('.box'),
+        wrapperContainer = document.querySelector('.wrapper');
+
+  let position = 0,
+      animationIdStart, 
+      animationIdRevers;
+
+  function aniFunc() {
+    cancelAnimationFrame(animationIdRevers);
+    boxContainer.style.left = `${position}px`;
+    boxContainer.style.top = `${position}px`;
+    position++;
+    console.log('work aniFunc');
+
+    if (position < 298) {
+      animationIdStart = requestAnimationFrame(aniFunc);
+    } else {
+      console.log('end aniFunc');
+    }
+  }
+
+  function revAniFunc() {
+    cancelAnimationFrame(animationIdStart);
+    boxContainer.style.left = `${position}px`;
+    boxContainer.style.top = `${position}px`;
+    position--;
+
+    if (position >= 2) {
+      console.log('work revAniFunc');
+      animationIdRevers = requestAnimationFrame(revAniFunc);
+    } else {
+      console.log('end revAniFunc');
+    }
+  }
+
+  btn.addEventListener('click', () => requestAnimationFrame(aniFunc));
+  boxContainer.addEventListener('click', () => requestAnimationFrame(revAniFunc));
+
+  wrapperContainer.addEventListener('click', (e) => {
+    const target = e.target;
+    if(target && target == wrapperContainer) {
+      cancelAnimationFrame(animationIdStart);
+      cancelAnimationFrame(animationIdRevers);
+      console.log('Stop');
+    }
+  });
+
+  // Html template for animation 
+    // <!DOCTYPE html>
+    // <html lang="ru">
+    //   <head>
+    //     <meta charset="utf-8">
+    //     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    //     <title>Java Script</title>
+    //     <link rel="stylesheet" href="styles.css">
+    //   </head>
+    //   <body>
+    //     <button class="btn">Animation</button>
+    //     <div class="wrapper">
+    //         <div class="box"></div>
+    //     </div>
+    //     <script src="script.js"></script>
+    //   </body>
+    // </html>
