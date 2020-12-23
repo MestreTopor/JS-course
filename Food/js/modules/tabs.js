@@ -1,8 +1,8 @@
 // Start Tabs
-function tabs() {
-  const tabsContainer = document.querySelector('.tabheader__items'),
-  tabMenueItems = tabsContainer.querySelectorAll('.tabheader__item'),
-  tabContentItems = document.querySelectorAll('.tabcontent');
+function tabs(containerSelector, menuItemSelector, contentItemsSelector, itemActiveSelector) {
+  const tabsContainer = document.querySelector(containerSelector),
+  tabMenueItems = tabsContainer.querySelectorAll(menuItemSelector),
+  tabContentItems = document.querySelectorAll(contentItemsSelector);
 
   function addAnimation() {
   tabContentItems.forEach(item => {
@@ -25,7 +25,7 @@ function tabs() {
   }
 
   function showContentTabs(item = 0) {
-  tabMenueItems[item].classList.add('tabheader__item_active');
+  tabMenueItems[item].classList.add(itemActiveSelector.slice(1));
 
   setTimeout(() => {
     tabContentItems[item].classList.add('fade-in');
@@ -43,7 +43,7 @@ function tabs() {
   tabsContainer.addEventListener('click', e => {
   e = e.target;
 
-  if (e && e.classList.contains('tabheader__item') && !e.classList.contains('tabheader__item_active')) {
+  if (e && e.classList.contains(menuItemSelector.slice(1)) && !e.classList.contains(itemActiveSelector.slice(1))) {
     for (let i = 0; i < tabContentItems.length; i++) {
       if (tabMenueItems[i] == e) {
         hideContentTabs();

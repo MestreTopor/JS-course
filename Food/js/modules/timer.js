@@ -1,9 +1,7 @@
 // Start Timer
 
-function timer() {
+function timer(id, deadline) {
   const getZero = num => num <= 9 ? `0${num}` : num;
-  
-  const deadline = '2021-03-18';
 
   function getTimeRemaining(endTime) {
     const t = Date.parse(endTime) - Date.parse(new Date()),
@@ -48,7 +46,7 @@ function timer() {
       }
     }
   }
-  setClock('.timer', deadline);
+  setClock(id, deadline);
 }
 export default timer;
 // End Timer

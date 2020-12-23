@@ -844,6 +844,7 @@ Promise.race([test(1000), test(2000)]).then(() => { // Запускается п
 
 // Запуск json-server
 // json-server name_of_file.json
+//--------------------
 
 // Работа с Кэшем
 	// Local Storage
@@ -860,7 +861,8 @@ Promise.race([test(1000), test(2000)]).then(() => { // Запускается п
   
   localStorage.setItem('cities', JSON.stringify(cities)); // Правилтная запись объекта в Local Storage
   console.log(JSON.parse(localStorage.getItem('cities'))); 
-	
+//--------------------
+  
 // Регулярные выражения
   const ans = 'ANNa';
   const reg = /n/i;
@@ -890,22 +892,20 @@ Promise.race([test(1000), test(2000)]).then(() => { // Запускается п
   // \D - ишет не цифры
   // \W - ищет не слова
   // \S - ищет не пробелы
+//--------------------
 
-  
-
-
-  
-  
-  
-	
-	
-	
-	
-	
-	
-	
-	
-	
-		
-	
-	
+// Обработка ошибок
+  try {                         // Оператор 'try' будет работать пока внутри не возникнет ошибка
+    console.log('Normal');
+    //console.log(a1);          // Здесь код остановится и вернет 'catch'
+    console.log('Result');
+  } catch(error) {              // Оператор 'catch' сработает если в 'try' произойдет ошибка
+    console.log(error);         // Объект ошибки
+    console.log(error.name);    // Название ошибки
+    console.log(error.message); // Сообщение ошибки
+    console.log(error.stack);   // Стак ошибки
+  } finally {                   // Как и в promise код в операторе 'finally' будет выполняться всегда
+    console.log('Continue');
+  }
+  // Все что будет написано ниже оператора 'try catch' продолжит работать даже если в 'try' будет ошибка.
+//--------------------

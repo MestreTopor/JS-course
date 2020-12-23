@@ -1,3 +1,5 @@
+import {getResource} from '../services/services';
+
 function cards() {
   // Class for cards menue
   class MenuCard {
@@ -54,14 +56,6 @@ function cards() {
     }
   }
 
-  const getResource = async (url) => {
-    const res = await fetch(url);
-    if (!res.ok) {
-      throw new Error(`Could not fetch ${url}, status: ${res.status}`);
-    }
-    return await res.json();
-  };
-
   // getResource('http://localhost:3000/menu')
   // .then(data => {
   //   data.forEach(({ img, altimg, title, descr, price, transfer }) => { // Деструкторизация объекта ????????????????
@@ -73,7 +67,7 @@ function cards() {
     .then(data => createCard(data));
 
   function createCard(data) {
-    data.forEach(({ img, altimg, title, descr, price, transfer = 26}) => {
+    data.forEach(({ img, altimg, title, descr, price, transfer = 28}) => {
       const div = document.createElement('div');
       div.classList.add('menu__item');
       div.innerHTML = `

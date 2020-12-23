@@ -1,14 +1,14 @@
-function slider() {
+function slider({sliderContainerSelect, prevBtnSelector, nextBtnSelector, currentNumSelector, totalNumSelector, sliderWrapSelector, slidesSelector}) {
   // Start slider
   const getZero = num => num <= 9 ? `0${num}` : num;
   
-  const sliderContainer = document.querySelector('.offer__slider-wrapper'),
-    prevBtn = document.querySelector('.offer__slider-prev'),
-    nextBtn = document.querySelector('.offer__slider-next'),
-    currentNum = document.querySelector('#current'),
-    totalNum = document.querySelector('#total'),
-    sliderWrapper = sliderContainer.querySelector('.offer__slider-container'),
-    slides = sliderContainer.querySelectorAll('.offer__slide');
+  const sliderContainer = document.querySelector(sliderContainerSelect),
+        prevBtn         = document.querySelector(prevBtnSelector),
+        nextBtn         = document.querySelector(nextBtnSelector),
+        currentNum      = document.querySelector(currentNumSelector),
+        totalNum        = document.querySelector(totalNumSelector),
+        sliderWrapper   = sliderContainer.querySelector(sliderWrapSelector),
+        slides          = sliderContainer.querySelectorAll(slidesSelector);
 
   function setSliderWindow() {
     let getWidth = 0,
